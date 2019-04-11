@@ -12,6 +12,18 @@ type: group
 short-summary: Manage private registries with Azure Container Registries.
 """
 
+helps['acr test'] = """
+type: command
+short-summary: Test connection to registry and extract some sample logs.
+examples:
+  - name: Check connectivity to registry and get logs for 2 last days.
+    text: >
+        az acr test -r MyRegistry --show_logs true --days 2
+  - name: Check connectivity to registry without extracting any logs.
+    text: >
+        az acr test -r MyRegistry --show_logs false
+"""
+
 helps['acr build'] = """
 type: command
 short-summary: Queues a quick build, providing streaming logs for an Azure Container Registry.

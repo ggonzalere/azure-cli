@@ -102,6 +102,13 @@ def load_command_table(self, _):  # pylint: disable=too-many-statements
         client_factory=cf_acr_registries
     )
 
+    acr_test_util = CliCommandType(
+        operations_tmpl='azure.cli.command_modules.acr.test#{}'
+    )
+
+    with self.command_group('acr', acr_test_util) as g:
+        g.command('test', 'acr_test')
+
     with self.command_group('acr', acr_custom_util) as g:
         g.command('check-name', 'acr_check_name', table_transformer=None)
         g.command('list', 'acr_list')
