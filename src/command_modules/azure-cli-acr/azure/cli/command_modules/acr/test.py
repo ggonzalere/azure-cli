@@ -60,10 +60,9 @@ def get_logs(
     if len(filtered_logs) == 0:
         print('No logs for the time range specified.')
     else:
-        parsed_logs = ["TIMESTAMP", "ACTION", "TAG NAME", "DIGEST"]
-        for log in filtered_logs:
-            parsed_logs = parsed_logs + [log[0].strftime("%m/%d/%Y  %H:%M:%S"), log[1], log[2], log[3] ]
-        print_nice_matrix(logs)
+        parsed_logs = [ ["TIMESTAMP", "ACTION", "TAG NAME", "DIGEST"] ]
+        parsed_logs = parsed_logs + filtered_logs
+        print_nice_matrix(parsed_logs)
 
 
 
