@@ -12,16 +12,19 @@ type: group
 short-summary: Manage private registries with Azure Container Registries.
 """
 
-helps['acr test'] = """
+helps['acr scope-map'] = """
+type: group
+short-summary: Manage scope maps for Azure Container Registries.
+"""
+
+helps['acr scope-map create'] = """
 type: command
-short-summary: Test connection to registry and extract some sample logs.
+short-summary: Creates a scope map for an Azure Container Registry.
 examples:
-  - name: Check connectivity to registry and get logs for 2 last days.
+  - name: Create a scope map that allows pull, push and delete operations for `hello-world` repository.
     text: >
-        az acr test -r MyRegistry --show_logs true --days 2
-  - name: Check connectivity to registry without extracting any logs.
-    text: >
-        az acr test -r MyRegistry --show_logs false
+        az acr scope-map create -r myRegistry -n myScopeMap --allow-repository hello-world,pull \
+          --allow-repository hello-world,push --allow-repository hello-world,delete
 """
 
 helps['acr build'] = """

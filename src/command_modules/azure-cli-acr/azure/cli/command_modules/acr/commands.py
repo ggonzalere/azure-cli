@@ -26,7 +26,9 @@ from ._client_factory import (
     cf_acr_replications,
     cf_acr_webhooks,
     cf_acr_tasks,
-    cf_acr_runs
+    cf_acr_runs,
+    cf_acr_scope_maps,
+    cf_acr_tokens
 )
 
 
@@ -102,12 +104,15 @@ def load_command_table(self, _):  # pylint: disable=too-many-statements
         client_factory=cf_acr_registries
     )
 
-    acr_test_util = CliCommandType(
-        operations_tmpl='azure.cli.command_modules.acr.test#{}'
+    acr_scope_maps_util = CliCommandType(
+        operations_tmpl='azure.cli.command_modules.acr.scope_maps#{}',
+        client_factory=cf_acr_scope_maps
     )
 
-    with self.command_group('acr', acr_test_util) as g:
-        g.command('test', 'acr_test')
+    acr_tokens_util = CliCommandType(
+        operations_tmpl='azure.cli.command_modules.acr.tokens#{}',
+        client_factory=cf_acr_tokens
+    )
 
     with self.command_group('acr', acr_custom_util) as g:
         g.command('check-name', 'acr_check_name', table_transformer=None)
@@ -213,3 +218,6 @@ def load_command_table(self, _):  # pylint: disable=too-many-statements
         g.command('list', 'acr_network_rule_list')
         g.command('add', 'acr_network_rule_add')
         g.command('remove', 'acr_network_rule_remove')
+    
+    with self.command_group('acr scope-map', acr_scope_maps_util) as g:
+        g.command('create', 'acr_scope_maps_create')

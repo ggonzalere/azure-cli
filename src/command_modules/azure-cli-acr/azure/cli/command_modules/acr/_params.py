@@ -71,10 +71,6 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
         c.argument('cmd', options_list=['--__cmd__'])
         c.argument('cmd_value', help="Commands to execute.", options_list=['--cmd'])
 
-    with self.argument_context('acr test') as c:
-        c.argument('show_logs', options_list=['--show_logs'], help="Indicates if should show logs for push/delete operations for that registry. Disabled by default.", arg_type=get_three_state_flag())
-        c.argument('days', options_list=['--days'], help="Number of days to show logs. Days are counted from time of command. Max of 7 days.")
-
     for scope in ['acr create', 'acr update']:
         with self.argument_context(scope, arg_group='Network Rule') as c:
             c.argument('default_action', arg_type=get_enum_type(DefaultAction),
@@ -224,3 +220,10 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
         c.argument('subnet', help='Name or ID of subnet. If name is supplied, `--vnet-name` must be supplied.')
         c.argument('vnet_name', help='Name of a virtual network.')
         c.argument('ip_address', help='IPv4 address or CIDR range.')
+    
+    with self.argument_context('acr scope-map') as c:
+        c.argument('registry_name', options_list=['--registryName', '-r'], help='The name of the target registry.', required=True)
+        c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+    
+    with self.argument_context('acr scope-map create') as c:
+        c.argument('allow_repository', options_list=['--allow-repository'], help='Repositories to be allowed. Add one pair (repository,action) per flag.', action='append', required=True)
