@@ -223,7 +223,20 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
     
     with self.argument_context('acr scope-map') as c:
         c.argument('registry_name', options_list=['--registryName', '-r'], help='The name of the target registry.', required=True)
-        c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
     
     with self.argument_context('acr scope-map create') as c:
+        c.argument('description', options_list=['--description'], help='Description for the scope map. Max of 140 characters.', required=False)
         c.argument('allow_repository', options_list=['--allow-repository'], help='Repositories to be allowed. Add one pair (repository,action) per flag.', action='append', required=True)
+        c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+    
+    with self.argument_context('acr scope-map delete') as c:
+        c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+    
+    with self.argument_context('acr scope-map update') as c:
+        c.argument('description', options_list=['--description'], help='Description for the scope map. Max of 140 characters.', required=False)
+        c.argument('allow_repository', options_list=['--allow-repository'], help='Repositories to be allowed. Add one pair (repository,action) per flag.', action='append', required=False)
+        c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+    
+    with self.argument_context('acr scope-map show') as c:
+        c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+    

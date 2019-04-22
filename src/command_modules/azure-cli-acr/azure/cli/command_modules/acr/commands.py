@@ -104,13 +104,13 @@ def load_command_table(self, _):  # pylint: disable=too-many-statements
         client_factory=cf_acr_registries
     )
 
-    acr_scope_maps_util = CliCommandType(
-        operations_tmpl='azure.cli.command_modules.acr.scope_maps#{}',
+    acr_scope_map_util = CliCommandType(
+        operations_tmpl='azure.cli.command_modules.acr.scope_map#{}',
         client_factory=cf_acr_scope_maps
     )
 
-    acr_tokens_util = CliCommandType(
-        operations_tmpl='azure.cli.command_modules.acr.tokens#{}',
+    acr_token_util = CliCommandType(
+        operations_tmpl='azure.cli.command_modules.acr.token#{}',
         client_factory=cf_acr_tokens
     )
 
@@ -219,5 +219,9 @@ def load_command_table(self, _):  # pylint: disable=too-many-statements
         g.command('add', 'acr_network_rule_add')
         g.command('remove', 'acr_network_rule_remove')
     
-    with self.command_group('acr scope-map', acr_scope_maps_util) as g:
-        g.command('create', 'acr_scope_maps_create')
+    with self.command_group('acr scope-map', acr_scope_map_util) as g:
+        g.command('create', 'acr_scope_map_create')
+        g.command('delete', 'acr_scope_map_delete')
+        g.command('update', 'acr_scope_map_update')
+        g.command('show', 'acr_scope_map_show')
+        g.command('list', 'acr_scope_map_list')

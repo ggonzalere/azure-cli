@@ -12,21 +12,6 @@ type: group
 short-summary: Manage private registries with Azure Container Registries.
 """
 
-helps['acr scope-map'] = """
-type: group
-short-summary: Manage scope maps for Azure Container Registries.
-"""
-
-helps['acr scope-map create'] = """
-type: command
-short-summary: Creates a scope map for an Azure Container Registry.
-examples:
-  - name: Create a scope map that allows pull, push and delete operations for `hello-world` repository.
-    text: >
-        az acr scope-map create -r myRegistry -n myScopeMap --allow-repository hello-world,pull \
-          --allow-repository hello-world,push --allow-repository hello-world,delete
-"""
-
 helps['acr build'] = """
 type: command
 short-summary: Queues a quick build, providing streaming logs for an Azure Container Registry.
@@ -761,4 +746,55 @@ examples:
   - name: Disable a webhook.
     text: >
         az acr webhook update -n MyWebhook -r MyRegistry --status disabled
+"""
+
+helps['acr scope-map'] = """
+type: group
+short-summary: Manage scope maps for Azure Container Registries.
+"""
+
+helps['acr scope-map create'] = """
+type: command
+short-summary: Creates a scope map for an Azure Container Registry.
+examples:
+  - name: Create a scope map that allows pull, push and delete operations for `hello-world` repository.
+    text: >
+        az acr scope-map create -r myRegistry -n myScopeMap --allow-repository hello-world,pull,push,delete \
+          --description "Sample scope map."
+"""
+
+helps['acr scope-map delete'] = """
+type: command
+short-summary: Deletes a scope map under an Azure Container Registry.
+examples:
+  - name: Deletes the scope map 'myScopeMap'.
+    text: >
+        az acr scope-map delete -r myRegistry -n myScopeMap
+"""
+
+helps['acr scope-map update'] = """
+type: command
+short-summary: Updates a scope map under an Azure Container Registry, replacing description and actions.
+examples:
+  - name: Updates the scope map 'myScopeMap' replacing old actions with 'repositories/hello-world/push'.
+    text: >
+        az acr scope-map update -r myRegistry -n myScopeMap --allow-repository hello-wolrd,push
+"""
+
+helps['acr scope-map show'] = """
+type: command
+short-summary: Shows details and attributes for a scope map under an Azure Container Registry.
+examples:
+  - name: Get information for scope map.
+    text: >
+        az acr scope-map show -r myRegistry -n myScopeMap
+"""
+
+helps['acr scope-map list'] = """
+type: command
+short-summary: List all scope maps under an Azure Container Registry.
+examples:
+  - name: List scope maps under the registry 'myRegistry'.
+    text: >
+        az acr scope-map list -r myRegistry
 """
