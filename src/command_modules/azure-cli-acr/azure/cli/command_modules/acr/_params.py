@@ -220,23 +220,41 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
         c.argument('subnet', help='Name or ID of subnet. If name is supplied, `--vnet-name` must be supplied.')
         c.argument('vnet_name', help='Name of a virtual network.')
         c.argument('ip_address', help='IPv4 address or CIDR range.')
-    
+
     with self.argument_context('acr scope-map') as c:
         c.argument('registry_name', options_list=['--registryName', '-r'], help='The name of the target registry.', required=True)
-    
+
     with self.argument_context('acr scope-map create') as c:
         c.argument('description', options_list=['--description'], help='Description for the scope map. Max of 140 characters.', required=False)
         c.argument('allow_repository', options_list=['--allow-repository'], help='Repositories to be allowed. Add one pair (repository,action) per flag.', action='append', required=True)
         c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
-    
+
     with self.argument_context('acr scope-map delete') as c:
         c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
-    
+
     with self.argument_context('acr scope-map update') as c:
         c.argument('description', options_list=['--description'], help='Description for the scope map. Max of 140 characters.', required=False)
         c.argument('allow_repository', options_list=['--allow-repository'], help='Repositories to be allowed. Add one pair (repository,action) per flag.', action='append', required=False)
+        c.argument('deny_repository', options_list=['--deny-repository'], help='Repositories to be denied. Add one pair (repository,action) per flag.', action='append', required=False)
+        c.argument('reset_map'), options_list=['--reset'], help='Flag indicating whether scope map should be reset (erase all configurations)', action='store_true', required=False)
         c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
-    
+
     with self.argument_context('acr scope-map show') as c:
         c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
-    
+
+    with self.argument_context('acr token') as c:
+        c.argument('registry_name', options_list=['--registryName', '-r'], help='The name of the target registry.', required=True)
+
+    with self.argument_context('act token create') as c:
+        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+        c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=True)
+
+    with self.argument_context('acr token delete') as c:
+        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
+
+    with self.argument_context('acr token update') as c:
+        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+        c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=True)
+
+    with self.argument_context('acr token show') as c:
+        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)

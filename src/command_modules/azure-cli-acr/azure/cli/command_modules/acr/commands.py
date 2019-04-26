@@ -225,3 +225,10 @@ def load_command_table(self, _):  # pylint: disable=too-many-statements
         g.command('update', 'acr_scope_map_update')
         g.command('show', 'acr_scope_map_show')
         g.command('list', 'acr_scope_map_list')
+    
+    with self.command_group('acr token', acr_token_util) as g:
+        g.command('create', 'acr_token_create')
+        g.command('delete', 'acr_token_delete')
+        g.command('update', 'acr_token_update')
+        g.command('show', 'acr_token_show')
+        g.command('list', 'acr_token_list')
