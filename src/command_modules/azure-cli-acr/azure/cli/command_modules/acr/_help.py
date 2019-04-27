@@ -847,3 +847,32 @@ examples:
     text: >
         az acr token list -r myRegistry
 """
+
+helps['acr token credential'] = """
+type: group
+short-summary: Manage credentials for a token under an Azure Container Registry.
+"""
+
+helps['acr token credential list'] = """
+type: command
+short-summary: List a token's credentials.
+examples:
+  - name: List credentials for the token 'myToken'.
+    text: az acr token credential list -r myRegistry -n myToken
+"""
+
+helps['acr token credential reset'] = """
+type: command
+short-summary: Reset a token credential. To be used upon expiration, loss or leak of information.
+examples:
+  - name: Reset credentials for the token 'myToken', setting duration of 2 years.
+    text: az acr token credential reset -r myRegistry -n myToken --years 2
+"""
+
+helps['acr token credential delete'] = """
+type: command
+short-summary: Delete a token's credentials.
+examples:
+  - name: Delete credentials for the token 'myToken' with key id 'myKeyId'.
+    text: az acr token credential delete -r myRegistry -n myToken --key-id myKeyId
+"""

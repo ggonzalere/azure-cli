@@ -122,8 +122,15 @@ def acr_token_credential_reset(cmd,
                                years=1):
 
     import datetime
+    from dateutil.parser import parse
+
     if not end_date:
-        end_date = datetime.datetime.now() + datetime.timedelta(days=365)
+        end_date_datetime = datetime.datetime.now() + datetime.timedelta(days=365*years)
+    else:
+        try:
+            end_date_datetime = parse(end_date)
+        except ValueError:
+            raise CLIError("Format {} is invalid or not supported. Please tr another date format.".format(end_date))
 
 def acr_token_credential_delete(cmd,
                                 client,

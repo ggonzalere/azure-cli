@@ -88,8 +88,11 @@ def acr_scope_map_update(cmd,
         raise CLIError("At least one of the following parameters must be provided: \
                         --allow-repository, --deny-repository, --reset, --description.")
 
-    import json
-    current_actions = json.loads(acr_scope_map_show(cmd, client, registry_name, scope_map_name, resource_group_name))["actions"]
+    if reset_map:
+        current_actions = []
+    else:
+        import json
+        current_actions = json.loads(acr_scope_map_show(cmd, client, registry_name, scope_map_name, resource_group_name))["actions"]
 
     if deny_repository is not None:
         validated, removed_actions = _validate_and_generate_actions_from_repositories(deny_repository)

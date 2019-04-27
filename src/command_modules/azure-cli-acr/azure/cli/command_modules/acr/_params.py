@@ -236,7 +236,7 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
         c.argument('description', options_list=['--description'], help='Description for the scope map. Max of 140 characters.', required=False)
         c.argument('allow_repository', options_list=['--allow-repository'], help='Repositories to be allowed. Add one pair (repository,action) per flag.', action='append', required=False)
         c.argument('deny_repository', options_list=['--deny-repository'], help='Repositories to be denied. Add one pair (repository,action) per flag.', action='append', required=False)
-        c.argument('reset_map'), options_list=['--reset'], help='Flag indicating whether scope map should be reset (erase all configurations)', action='store_true', required=False)
+        c.argument('reset_map', options_list=['--reset'], help='Flag indicating whether scope map should be reset (erase all configurations)', action='store_true', required=False)
         c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
 
     with self.argument_context('acr scope-map show') as c:
@@ -246,15 +246,28 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
         c.argument('registry_name', options_list=['--registryName', '-r'], help='The name of the target registry.', required=True)
 
     with self.argument_context('act token create') as c:
-        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
         c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=True)
 
     with self.argument_context('acr token delete') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
 
     with self.argument_context('acr token update') as c:
-        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
         c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=True)
 
     with self.argument_context('acr token show') as c:
-        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
+        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
+
+    with self.argument_context('acr token credential') as c:
+        c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token', required=True)
+        c.argument('certificate', options_list=['--cert'], help='A certificate based credential', required=False)
+
+    with self.argument_context('acr token credential reset') as c:
+        c.argument('certificate', options_list=['--cert'], help='Certificate to use for credentials. If not specified, a random password will be generated', required=False)
+        c.argument('create_certificate', options_list=['--create-cert'], help='Create a self-signed certificate to use for the credential', required=False)
+        c.argument('end_date', options_list=['--end-date'], help='Finer grain of expiry time if \'--years\' is insufficient, e.g. \'2020-12-31T11:59:59+00:00\' or \'2299-12-31\'', required=False)
+        c.argument('years', options_list=['--years'], help='Number of years for which the credentials will be valid.', type=int, required=False)
+
+    with self.argument_context('acr token credential delete') as c:
+        c.argument('key_id', options_list=['--key-id'], help='Credential key id.', required=True)
