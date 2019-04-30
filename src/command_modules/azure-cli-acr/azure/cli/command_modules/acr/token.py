@@ -19,8 +19,8 @@ def acr_token_create(cmd,
     from ._constants import REGISTRY_RESOURCE_TYPE
     from ._utils import _arm_get_resource_by_name
 
-    registry_id = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
-    scope_map_id = registry_id + "/scopeMaps/" + scope_map_name
+    arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
+    scope_map_id = arm_resource.id + "/scopeMaps/" + scope_map_name
 
     from msrest.exceptions import ValidationError
     try:
@@ -54,8 +54,8 @@ def acr_token_update(cmd,
     from ._constants import REGISTRY_RESOURCE_TYPE
     from ._utils import _arm_get_resource_by_name
 
-    registry_id = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
-    scope_map_id = registry_id + "/scopeMaps/" + scope_map_name
+    arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
+    scope_map_id = arm_resource.id + "/scopeMaps/" + scope_map_name
 
     from msrest.exceptions import ValidationError
     try:

@@ -245,7 +245,7 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
     with self.argument_context('acr token') as c:
         c.argument('registry_name', options_list=['--registryName', '-r'], help='The name of the target registry.', required=True)
 
-    with self.argument_context('act token create') as c:
+    with self.argument_context('acr token create') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
         c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=True)
 
