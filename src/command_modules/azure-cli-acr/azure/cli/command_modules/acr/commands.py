@@ -114,6 +114,12 @@ def load_command_table(self, _):  # pylint: disable=too-many-statements
         client_factory=cf_acr_tokens
     )
 
+    acr_token_credential_util = CliCommandType(
+        operations_tmpl='azure.cli.command_modules.acr.token#{}',
+        table_transformer=credential_output_format,
+        client_factory=cf_acr_registries
+    )
+
     with self.command_group('acr', acr_custom_util) as g:
         g.command('check-name', 'acr_check_name', table_transformer=None)
         g.command('list', 'acr_list')
@@ -233,7 +239,8 @@ def load_command_table(self, _):  # pylint: disable=too-many-statements
         g.command('show', 'acr_token_show')
         g.command('list', 'acr_token_list')
 
-    with self.command_group('acr token credential', acr_token_util) as g:
+    with self.command_group('acr token credential', acr_token_credential_util) as g:
         g.command('list', 'acr_token_credential_list')
         g.command('reset', 'acr_token_credential_reset')
         g.command('delete', 'acr_token_credential_delete')
+        g.command('generate', 'acr_token_credential_generate')

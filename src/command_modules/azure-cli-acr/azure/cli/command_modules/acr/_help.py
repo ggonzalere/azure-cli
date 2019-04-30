@@ -853,6 +853,14 @@ type: group
 short-summary: Manage credentials for a token under an Azure Container Registry.
 """
 
+helps['acr token credential generate'] = """
+type: command
+short-summary: Generate a token's credentials.
+examples:
+  - name: Generate credentials for the token 'myToken'.
+    text: az acr token credential generate -r myRegistry -n myToken
+"""
+
 helps['acr token credential list'] = """
 type: command
 short-summary: List a token's credentials.

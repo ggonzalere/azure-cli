@@ -104,12 +104,38 @@ def acr_token_list(cmd,
 
 # Credential functions
 
+def acr_token_credential_generate(cmd,
+                              client,
+                              registry_name,
+                              token_name,
+                              certificate=None,
+                              resource_group_name=None):
+
+    from ._utils import get_registry_by_name
+    from ._constants import REGISTRY_RESOURCE_TYPE
+    from ._utils import _arm_get_resource_by_name
+    from msrest.exceptions import ValidationError
+
+    registry, resource_group_name = get_registry_by_name(cmd.cli_ctx, registry_name, resource_group_name)
+    arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
+    token_id = arm_resource.id + "/tokens/" + token_name
+    generate_credentials_parameters = {"TokenId": token_id}
+
+    try:
+        return client.generate_keys(
+            resource_group_name,
+            registry_name,
+            generate_credentials_parameters
+        )
+    except ValidationError as e:
+        raise CLIError(e)
+
 def acr_token_credential_list(cmd,
                               client,
                               registry_name,
                               token_name,
-                              certificate=None):
-
+                              certificate=None,
+                              resource_group_name=None):
     pass
 
 def acr_token_credential_reset(cmd,
@@ -119,7 +145,8 @@ def acr_token_credential_reset(cmd,
                                certificate=None,
                                create_certificate=None,
                                end_date=None,
-                               years=1):
+                               years=1,
+                               resource_group_name=None):
 
     import datetime
     from dateutil.parser import parse
@@ -137,5 +164,6 @@ def acr_token_credential_delete(cmd,
                                 registry_name,
                                 token_name,
                                 key_id,
-                                certificate=None):
+                                certificate=None,
+                                resource_group_name=None):
     pass
