@@ -226,7 +226,7 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
 
     with self.argument_context('acr scope-map create') as c:
         c.argument('description', options_list=['--description'], help='Description for the scope map. Max of 140 characters.', required=False)
-        c.argument('allow_repository', options_list=['--allow-repository'], help='Repositories to be allowed. Add one pair (repository,action) per flag.', action='append', required=True)
+        c.argument('add_repository', nargs='+', options_list=['--add'], help='Repositories to be added. Add tuples (repository,action1,action2,...) separated by space.', required=True)
         c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
 
     with self.argument_context('acr scope-map delete') as c:
@@ -234,8 +234,8 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
 
     with self.argument_context('acr scope-map update') as c:
         c.argument('description', options_list=['--description'], help='Description for the scope map. Max of 140 characters.', required=False)
-        c.argument('allow_repository', options_list=['--allow-repository'], help='Repositories to be allowed. Add one pair (repository,action) per flag.', action='append', required=False)
-        c.argument('deny_repository', options_list=['--deny-repository'], help='Repositories to be denied. Add one pair (repository,action) per flag.', action='append', required=False)
+        c.argument('add_repository', nargs='+', options_list=['--add'], help='Repositories to be added. Add tuples (repository,action1,action2,...) separated by space.', required=False)
+        c.argument('remove_repository', nargs='+', options_list=['--remove'], help='Repositories to be removed. Add tuples (repository,action1,action2,...) separated by space.', required=False)
         c.argument('reset_map', options_list=['--reset'], help='Flag indicating whether scope map should be reset (erase all configurations)', action='store_true', required=False)
         c.argument('scope_map_name', options_list=['--name', '-n'], help='The name of the target scope map.', required=True)
 
@@ -247,14 +247,14 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
 
     with self.argument_context('acr token create') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
-        c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=True)
+        c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=False)
 
     with self.argument_context('acr token delete') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
 
     with self.argument_context('acr token update') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
-        c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=True)
+        c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token. If not specified, running this command will disassociate the current scope map related to the token.', required=False)
 
     with self.argument_context('acr token show') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)

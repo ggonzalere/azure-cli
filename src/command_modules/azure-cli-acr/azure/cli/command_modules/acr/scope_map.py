@@ -7,31 +7,16 @@ from azure.cli.core.util import CLIError
 
 from ._utils import get_resource_group_name_by_registry_name
 
-def _validate_and_parse_actions(actions):
-    valid_actions = ['contentWrite', 'contentRead', 'contentDelete', 'read', 'write', 'delete']
-    actions = actions.split(',')
-    for action in actions:
-        is_valid = False
-        for valid_action in valid_actions:
-            if action == valid_action:
-                is_valid = True
-        if not is_valid:
-            return False, actions
-    return True, actions
-
-def _validate_and_generate_actions_from_repositories(allow_or_deny_respository):
+def _validate_and_generate_actions_for_repositories(allow_or_deny_respository):
     actions = []
 
     for rule in allow_or_deny_respository:
-        splitted = rule.split(',', 2)
+        splitted = rule.split(';', 1)
         if len(splitted) != 2:
             return False, rule
-        repository, actions_allowed = splitted[0], splitted[1]
-        valid_actions, actions_allowed = _validate_and_parse_actions(actions_allowed)
-        if not valid_actions:
-            return False, rule
-        for action_allowed in actions_allowed:
-            actions.append("repositories/" + repository + "/" + action_allowed)
+        repository, repository_actions = splitted[0], splitted[1].split(',')
+        for action in repository_actions:
+            actions.append("repositories/" + repository + "/" + action)
 
     return True, actions
 
@@ -39,14 +24,17 @@ def acr_scope_map_create(cmd,
                          client,
                          registry_name,
                          scope_map_name,
-                         allow_repository,
+                         add_repository,
                          resource_group_name=None,
                          description=None):
 
-    validated, actions = _validate_and_generate_actions_from_repositories(allow_repository)
+    validated, actions = _validate_and_generate_actions_for_repositories(add_repository)
     if not validated:
         raise CLIError("Rule {} has invalid syntax.".format(actions))
     actions.sort()
+
+    if description is not None:
+        description = ' '.join(description)
 
     resource_group_name = get_resource_group_name_by_registry_name(cmd, registry_name, resource_group_name)
 
@@ -68,6 +56,13 @@ def acr_scope_map_delete(cmd,
                          scope_map_name,
                          resource_group_name=None):
 
+    confirmation = ''
+    while confirmation not in ['Y', 'y', 'N', 'n']:
+        confirmation = str(input("Deleting the scope map '{}' will remove its permissions with associated tokens. Are you sure you want to proceed? (Y/n): ".format(scope_map_name))).strip()
+
+    if confirmation in ['N', 'n']:
+        return
+
     resource_group_name = get_resource_group_name_by_registry_name(cmd, registry_name, resource_group_name)
     return client.delete(resource_group_name, registry_name, scope_map_name)
 
@@ -75,15 +70,15 @@ def acr_scope_map_update(cmd,
                          client,
                          registry_name,
                          scope_map_name,
-                         allow_repository=None,
-                         deny_repository=None,
+                         add_repository=None,
+                         remove_repository=None,
                          reset_map=None,
                          resource_group_name=None,
                          description=None):
 
-    if not (allow_repository or deny_repository or reset_map or description):
-        raise CLIError("At least one of the following parameters must be provided: \
-                        --allow-repository, --deny-repository, --reset, --description.")
+    if not (add_repository or remove_repository or reset_map or description):
+        raise CLIError("At least one of the following parameters must be provided: " +
+                       "--add, --remove, --reset, --description.")
 
     current_scope_map = acr_scope_map_show(cmd, client, registry_name, scope_map_name, resource_group_name)
 
@@ -94,15 +89,17 @@ def acr_scope_map_update(cmd,
 
     if description is None:
         description = current_scope_map.description
+    else:
+        description = ' '.join(description)
 
-    if deny_repository is not None:
-        validated, removed_actions = _validate_and_generate_actions_from_repositories(deny_repository)
+    if remove_repository is not None:
+        validated, removed_actions = _validate_and_generate_actions_for_repositories(remove_repository)
         if not validated:
             raise CLIError("Rule {} has invalid syntax.".format(removed_actions))
         current_actions = list(set(current_actions) - set(removed_actions))
 
-    if allow_repository is not None:
-        validated, added_actions = _validate_and_generate_actions_from_repositories(allow_repository)
+    if add_repository is not None:
+        validated, added_actions = _validate_and_generate_actions_for_repositories(add_repository)
         if not validated:
             raise CLIError("Rule {} has invalid syntax.".format(added_actions))
         current_actions = list(set(current_actions) | set(added_actions))

@@ -759,7 +759,7 @@ short-summary: Creates a scope map for an Azure Container Registry.
 examples:
   - name: Create a scope map that allows pull, push and delete operations for `hello-world` repository, and pull operations for `hello/world`.
     text: >
-        az acr scope-map create -r myRegistry -n myScopeMap --allow-repository hello-world,pull,push,delete --allow-repository hello/world,pull --description "Sample scope map."
+        az acr scope-map create -r myRegistry -n myScopeMap --add hello-world;pull,push,delete hello/world;pull --description "Sample scope map."
 """
 
 helps['acr scope-map delete'] = """
@@ -773,11 +773,11 @@ examples:
 
 helps['acr scope-map update'] = """
 type: command
-short-summary: Updates a scope map under an Azure Container Registry, replacing description and actions.
+short-summary: Updates a scope map under an Azure Container Registry, appending/removing actions specified. If flag "--reset" is given, running this command will override the current scope map with given description/actions.
 examples:
   - name: Updates the scope map 'myScopeMap' replacing old actions with 'repositories/hello-world/push'.
     text: >
-        az acr scope-map update -r myRegistry -n myScopeMap --allow-repository hello-wolrd,push
+        az acr scope-map update -r myRegistry -n myScopeMap --add hello-wolrd,push --reset
 """
 
 helps['acr scope-map show'] = """

@@ -11,7 +11,7 @@ def acr_token_create(cmd,
                      client,
                      registry_name,
                      token_name,
-                     scope_map_name,
+                     scope_map_name=None,
                      resource_group_name=None):
 
     resource_group_name = get_resource_group_name_by_registry_name(cmd, registry_name, resource_group_name)
@@ -19,8 +19,11 @@ def acr_token_create(cmd,
     from ._constants import REGISTRY_RESOURCE_TYPE
     from ._utils import _arm_get_resource_by_name
 
-    arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
-    scope_map_id = arm_resource.id + "/scopeMaps/" + scope_map_name
+    if scope_map_name is not None:
+        arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
+        scope_map_id = arm_resource.id + "/scopeMaps/" + scope_map_name
+    else:
+        scope_map_id = None
 
     from msrest.exceptions import ValidationError
     try:
@@ -46,7 +49,7 @@ def acr_token_update(cmd,
                      client,
                      registry_name,
                      token_name,
-                     scope_map_name,
+                     scope_map_name=None,
                      resource_group_name=None):
 
     resource_group_name = get_resource_group_name_by_registry_name(cmd, registry_name, resource_group_name)
@@ -54,8 +57,11 @@ def acr_token_update(cmd,
     from ._constants import REGISTRY_RESOURCE_TYPE
     from ._utils import _arm_get_resource_by_name
 
-    arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
-    scope_map_id = arm_resource.id + "/scopeMaps/" + scope_map_name
+    if scope_map_name is not None:
+        arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
+        scope_map_id = arm_resource.id + "/scopeMaps/" + scope_map_name
+    else:
+        scope_map_id = None
 
     from msrest.exceptions import ValidationError
     try:
@@ -136,7 +142,7 @@ def acr_token_credential_list(cmd,
                               token_name,
                               certificate=None,
                               resource_group_name=None):
-    pass
+    return "Not implemented"
 
 def acr_token_credential_reset(cmd,
                                client,
@@ -158,6 +164,7 @@ def acr_token_credential_reset(cmd,
             end_date_datetime = parse(end_date)
         except ValueError:
             raise CLIError("Format {} is invalid or not supported. Please tr another date format.".format(end_date))
+    return "Not implemented"
 
 def acr_token_credential_delete(cmd,
                                 client,
@@ -166,4 +173,4 @@ def acr_token_credential_delete(cmd,
                                 key_id,
                                 certificate=None,
                                 resource_group_name=None):
-    pass
+    return "Not implemented"
