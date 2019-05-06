@@ -111,11 +111,11 @@ def acr_token_list(cmd,
 # Credential functions
 
 def acr_token_credential_generate(cmd,
-                              client,
-                              registry_name,
-                              token_name,
-                              certificate=None,
-                              resource_group_name=None):
+                                  client,
+                                  registry_name,
+                                  token_name,
+                                  certificate=None,
+                                  resource_group_name=None):
 
     from ._utils import get_registry_by_name
     from ._constants import REGISTRY_RESOURCE_TYPE
