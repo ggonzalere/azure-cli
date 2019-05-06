@@ -126,6 +126,7 @@ def acr_token_credential_generate(cmd,
     arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
     token_id = arm_resource.id + "/tokens/" + token_name
     generate_credentials_parameters = {"TokenId": token_id}
+    certificate = _certificate_handler(certificate)
 
     try:
         return client.generate_keys(
@@ -142,7 +143,8 @@ def acr_token_credential_list(cmd,
                               token_name,
                               certificate=None,
                               resource_group_name=None):
-    return "Not implemented"
+
+    certificate = _certificate_handler(certificate)
 
 def acr_token_credential_reset(cmd,
                                client,
@@ -164,7 +166,8 @@ def acr_token_credential_reset(cmd,
             end_date_datetime = parse(end_date)
         except ValueError:
             raise CLIError("Format {} is invalid or not supported. Please tr another date format.".format(end_date))
-    return "Not implemented"
+
+    certificate = _certificate_handler(certificate)
 
 def acr_token_credential_delete(cmd,
                                 client,
@@ -174,3 +177,21 @@ def acr_token_credential_delete(cmd,
                                 certificate=None,
                                 resource_group_name=None):
     return "Not implemented"
+
+# Utilities functions
+
+def _certificate_handler(certificate):
+    from base64 import b64encode, b64decode
+
+    if certificate is not None:
+        try:
+            certificate_file = open(certificate, "r")
+            certificate_content = certificate_file.read()
+            certificate_b64 = b64encode(certificate_content)
+            print(b64decode(certificate_b64))
+        except IOError as e:
+            raise CLIError('Could not read certificate: {}'.format(str(e)))
+    else:
+        certificate_b64 = None
+
+    return certificate_b64

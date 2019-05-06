@@ -264,7 +264,7 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
         c.argument('certificate', options_list=['--cert'], help='A certificate based credential', required=False)
 
     with self.argument_context('acr token credential reset') as c:
-        c.argument('certificate', options_list=['--cert'], help='Certificate to use for credentials. If not specified, a random password will be generated', required=False)
+        c.argument('certificate', options_list=['--cert'], help='Full path to a file containing the PEM format of the certificate to be used for credentials. If not specified, a random password will be generated', required=False)
         c.argument('create_certificate', options_list=['--create-cert'], help='Create a self-signed certificate to use for the credential', required=False)
         c.argument('end_date', options_list=['--end-date'], help='Finer grain of expiry time if \'--years\' is insufficient, e.g. \'2020-12-31T11:59:59+00:00\' or \'2299-12-31\'', required=False)
         c.argument('years', options_list=['--years'], help='Number of years for which the credentials will be valid.', type=int, required=False)
