@@ -12,6 +12,7 @@ def acr_token_create(cmd,
                      registry_name,
                      token_name,
                      scope_map_name=None,
+                     certificates=None,
                      resource_group_name=None):
 
     resource_group_name = get_resource_group_name_by_registry_name(cmd, registry_name, resource_group_name)
@@ -19,11 +20,18 @@ def acr_token_create(cmd,
     from ._constants import REGISTRY_RESOURCE_TYPE
     from ._utils import _arm_get_resource_by_name
 
-    if scope_map_name is not None:
+    token_create_parameters = {}
+
+    if scope_map_name:
         arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
         scope_map_id = arm_resource.id + "/scopeMaps/" + scope_map_name
-    else:
-        scope_map_id = None
+        token_create_parameters["ScopeMapId"] = scope_map_id
+
+    certificates = _certificate_handler(certificates)
+    if certificates:
+        token_create_parameters["Credentials"] = {
+            "Certificates": certificates
+        }
 
     from msrest.exceptions import ValidationError
     try:
@@ -31,7 +39,7 @@ def acr_token_create(cmd,
             resource_group_name,
             registry_name,
             token_name,
-            scope_map_id
+            token_create_parameters
         )
     except ValidationError as e:
         raise CLIError(e)
@@ -114,10 +122,8 @@ def acr_token_credential_generate(cmd,
                                   client,
                                   registry_name,
                                   token_name,
-                                  certificate=None,
                                   resource_group_name=None):
 
-    from ._utils import get_registry_by_name
     from ._constants import REGISTRY_RESOURCE_TYPE
     from ._utils import _arm_get_resource_by_name
     from msrest.exceptions import ValidationError
@@ -126,12 +132,9 @@ def acr_token_credential_generate(cmd,
     arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
     token_id = arm_resource.id + "/tokens/" + token_name
     generate_credentials_parameters = {"TokenId": token_id}
-    certificate = _certificate_handler(certificate)
-    if certificate:
-        generate_credentials_parameters["certificate"] = certificate
 
     try:
-        return client.generate_keys(
+        return client.generate_credentials(
             resource_group_name,
             registry_name,
             generate_credentials_parameters
@@ -182,18 +185,27 @@ def acr_token_credential_delete(cmd,
 
 # Utilities functions
 
-def _certificate_handler(certificate):
-    from base64 import b64encode, b64decode
+def _certificate_handler(certificates):
+    from base64 import b64encode
+    parsed_certificates = []
+    names = ["certificate1", "certificate2"]
+    total = 0
 
-    if certificate is not None:
-        try:
-            certificate_file = open(certificate, "r")
-            certificate_content = certificate_file.read()
-            certificate_b64 = b64encode(certificate_content)
-            print(b64decode(certificate_b64))
-        except IOError as e:
-            raise CLIError('Could not read certificate {}. Exception: {}'.format(certificate, str(e)))
-    else:
-        certificate_b64 = None
+    if certificates is not None:
+        for certificate in certificates:
+            if total >= 2:
+                break
+            try:
+                certificate_file = open(certificate, "r")
+                certificate_content = certificate_file.read()
+                certificate_b64 = b64encode(certificate_content.encode())
+                certificate_b64 = str(certificate_b64.decode())
+                parsed_certificates.append({
+                    "Name": names[total],
+                    "EncodedPEMCertificate": certificate_b64
+                })
+                total = total + 1
+            except IOError as e:
+                raise CLIError('Could not read certificate {}. Exception: {}'.format(certificate, str(e)))
 
-    return certificate_b64
+    return parsed_certificates
