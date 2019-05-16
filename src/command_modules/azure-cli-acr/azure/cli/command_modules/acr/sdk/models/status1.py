@@ -12,7 +12,7 @@
 from msrest.serialization import Model
 
 
-class Status(Model):
+class Status1(Model):
     """The status of an Azure resource at the time the operation was called.
 
     Variables are only populated by the server, and will be ignored when
@@ -41,7 +41,7 @@ class Status(Model):
     }
 
     def __init__(self):
-        super(Status, self).__init__()
+        super(Status1, self).__init__()
         self.display_status = None
         self.message = None
         self.timestamp = None

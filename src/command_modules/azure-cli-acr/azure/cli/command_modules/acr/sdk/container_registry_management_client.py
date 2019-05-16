@@ -17,8 +17,6 @@ from .operations.registries_operations import RegistriesOperations
 from .operations.operations import Operations
 from .operations.replications_operations import ReplicationsOperations
 from .operations.webhooks_operations import WebhooksOperations
-from .operations.runs_operations import RunsOperations
-from .operations.tasks_operations import TasksOperations
 from .operations.scope_maps_operations import ScopeMapsOperations
 from .operations.tokens_operations import TokensOperations
 from . import models
@@ -70,10 +68,6 @@ class ContainerRegistryManagementClient(object):
     :vartype replications: azure.mgmt.containerregistry.v2019_05_01_preview.operations.ReplicationsOperations
     :ivar webhooks: Webhooks operations
     :vartype webhooks: azure.mgmt.containerregistry.v2019_05_01_preview.operations.WebhooksOperations
-    :ivar runs: Runs operations
-    :vartype runs: azure.mgmt.containerregistry.v2019_05_01_preview.operations.RunsOperations
-    :ivar tasks: Tasks operations
-    :vartype tasks: azure.mgmt.containerregistry.v2019_05_01_preview.operations.TasksOperations
     :ivar scope_maps: ScopeMaps operations
     :vartype scope_maps: azure.mgmt.containerregistry.v2019_05_01_preview.operations.ScopeMapsOperations
     :ivar tokens: Tokens operations
@@ -104,10 +98,6 @@ class ContainerRegistryManagementClient(object):
         self.replications = ReplicationsOperations(
             self._client, self.config, self._serialize, self._deserialize)
         self.webhooks = WebhooksOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.runs = RunsOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.tasks = TasksOperations(
             self._client, self.config, self._serialize, self._deserialize)
         self.scope_maps = ScopeMapsOperations(
             self._client, self.config, self._serialize, self._deserialize)

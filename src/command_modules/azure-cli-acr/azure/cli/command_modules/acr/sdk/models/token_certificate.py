@@ -13,20 +13,30 @@ from msrest.serialization import Model
 
 
 class TokenCertificate(Model):
-    """TokenCertificate.
+    """The properties of a certificate used for authenticating a token.
 
+    :param name: Possible values include: 'certificate1', 'certificate2'
+    :type name: str or
+     ~azure.mgmt.containerregistry.v2019_05_01_preview.models.TokenCertificateName
     :param expiry: The expiry datetime of the certificate.
     :type expiry: datetime
     :param thumbprint: The thumbprint of the certificate.
     :type thumbprint: str
+    :param encoded_pem_certificate: Base 64 encoded string of the public
+     certificate1 in PEM format that will be used for authenticating the token.
+    :type encoded_pem_certificate: str
     """
 
     _attribute_map = {
+        'name': {'key': 'name', 'type': 'str'},
         'expiry': {'key': 'expiry', 'type': 'iso-8601'},
         'thumbprint': {'key': 'thumbprint', 'type': 'str'},
+        'encoded_pem_certificate': {'key': 'encodedPemCertificate', 'type': 'str'},
     }
 
-    def __init__(self, expiry=None, thumbprint=None):
+    def __init__(self, name=None, expiry=None, thumbprint=None, encoded_pem_certificate=None):
         super(TokenCertificate, self).__init__()
+        self.name = name
         self.expiry = expiry
         self.thumbprint = thumbprint
+        self.encoded_pem_certificate = encoded_pem_certificate

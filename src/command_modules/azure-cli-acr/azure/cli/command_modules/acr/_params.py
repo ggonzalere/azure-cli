@@ -247,7 +247,7 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
 
     with self.argument_context('acr token create') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
-        c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=False)
+        c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=True)
 
     with self.argument_context('acr token delete') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)

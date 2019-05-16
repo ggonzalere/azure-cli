@@ -93,100 +93,19 @@ class WebhookAction(Enum):
     chart_delete = "chart_delete"
 
 
-class RunStatus(Enum):
+class TokenCertificateName(Enum):
 
-    queued = "Queued"
-    started = "Started"
-    running = "Running"
-    succeeded = "Succeeded"
-    failed = "Failed"
-    canceled = "Canceled"
-    error = "Error"
-    timeout = "Timeout"
-
-
-class RunType(Enum):
-
-    quick_build = "QuickBuild"
-    quick_run = "QuickRun"
-    auto_build = "AutoBuild"
-    auto_run = "AutoRun"
-
-
-class OS(Enum):
-
-    windows = "Windows"
-    linux = "Linux"
-
-
-class Architecture(Enum):
-
-    amd64 = "amd64"
-    x86 = "x86"
-    arm = "arm"
-
-
-class Variant(Enum):
-
-    v6 = "v6"
-    v7 = "v7"
-    v8 = "v8"
-
-
-class TaskStatus(Enum):
-
-    disabled = "Disabled"
-    enabled = "Enabled"
-
-
-class BaseImageDependencyType(Enum):
-
-    build_time = "BuildTime"
-    run_time = "RunTime"
-
-
-class SourceControlType(Enum):
-
-    github = "Github"
-    visual_studio_team_service = "VisualStudioTeamService"
-
-
-class TokenType(Enum):
-
-    pat = "PAT"
-    oauth = "OAuth"
-
-
-class SourceTriggerEvent(Enum):
-
-    commit = "commit"
-    pullrequest = "pullrequest"
-
-
-class TriggerStatus(Enum):
-
-    disabled = "Disabled"
-    enabled = "Enabled"
-
-
-class BaseImageTriggerType(Enum):
-
-    all = "All"
-    runtime = "Runtime"
-
-
-class SourceRegistryLoginMode(Enum):
-
-    none = "None"
-    default = "Default"
-
-
-class SecretObjectType(Enum):
-
-    opaque = "Opaque"
+    certificate1 = "certificate1"
+    certificate2 = "certificate2"
 
 
 class TokenPasswordName(Enum):
 
-    password = "password"
+    password1 = "password1"
     password2 = "password2"
+
+
+class Status(Enum):
+
+    enabled = "enabled"
+    disabled = "disabled"

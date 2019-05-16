@@ -37,11 +37,14 @@ class Token(ProxyResource):
     :param object_id: The user/group/application object ID for which the token
      has to be created.
     :type object_id: str
-    :ivar permissions_status: The status of the permission propagation to all
-     the users associated with this token.
-    :vartype permissions_status: str
-    :ivar token_type: The type of the token. E.g. Device.
-    :vartype token_type: str
+    :param credentials: The credentials that can be used for authenticating
+     the token.
+    :type credentials:
+     ~azure.mgmt.containerregistry.v2019_05_01_preview.models.TokenCredentialsProperties
+    :param status: The status of the token example enabled or disabled.
+     Possible values include: 'enabled', 'disabled'
+    :type status: str or
+     ~azure.mgmt.containerregistry.v2019_05_01_preview.models.Status
     """
 
     _validation = {
@@ -50,8 +53,6 @@ class Token(ProxyResource):
         'type': {'readonly': True},
         'creation_date': {'readonly': True},
         'provisioning_state': {'readonly': True},
-        'permissions_status': {'readonly': True},
-        'token_type': {'readonly': True},
     }
 
     _attribute_map = {
@@ -62,15 +63,15 @@ class Token(ProxyResource):
         'provisioning_state': {'key': 'properties.provisioningState', 'type': 'str'},
         'scope_map_id': {'key': 'properties.scopeMapId', 'type': 'str'},
         'object_id': {'key': 'properties.objectId', 'type': 'str'},
-        'permissions_status': {'key': 'properties.permissionsStatus', 'type': 'str'},
-        'token_type': {'key': 'properties.type', 'type': 'str'},
+        'credentials': {'key': 'properties.credentials', 'type': 'TokenCredentialsProperties'},
+        'status': {'key': 'properties.status', 'type': 'str'},
     }
 
-    def __init__(self, scope_map_id=None, object_id=None):
+    def __init__(self, scope_map_id=None, object_id=None, credentials=None, status=None):
         super(Token, self).__init__()
         self.creation_date = None
         self.provisioning_state = None
         self.scope_map_id = scope_map_id
         self.object_id = object_id
-        self.permissions_status = None
-        self.token_type = None
+        self.credentials = credentials
+        self.status = status

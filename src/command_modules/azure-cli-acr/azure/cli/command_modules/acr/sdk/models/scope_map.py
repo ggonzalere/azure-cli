@@ -35,9 +35,6 @@ class ScopeMap(ProxyResource):
      'Canceled'
     :vartype provisioning_state: str or
      ~azure.mgmt.containerregistry.v2019_05_01_preview.models.ProvisioningState
-    :ivar permissions_status: The status of the permission propagation to all
-     the tokens associated with this scope map.
-    :vartype permissions_status: str
     :param actions: The list of scoped permissions for registry artifacts.
      E.g. repositories/repository-name/pull,
      repositories/repository-name/delete
@@ -51,7 +48,6 @@ class ScopeMap(ProxyResource):
         'scope_map_type': {'readonly': True},
         'creation_date': {'readonly': True},
         'provisioning_state': {'readonly': True},
-        'permissions_status': {'readonly': True},
         'actions': {'required': True},
     }
 
@@ -63,7 +59,6 @@ class ScopeMap(ProxyResource):
         'scope_map_type': {'key': 'properties.type', 'type': 'str'},
         'creation_date': {'key': 'properties.creationDate', 'type': 'iso-8601'},
         'provisioning_state': {'key': 'properties.provisioningState', 'type': 'str'},
-        'permissions_status': {'key': 'properties.permissionsStatus', 'type': 'str'},
         'actions': {'key': 'properties.actions', 'type': '[str]'},
     }
 
@@ -73,5 +68,4 @@ class ScopeMap(ProxyResource):
         self.scope_map_type = None
         self.creation_date = None
         self.provisioning_state = None
-        self.permissions_status = None
         self.actions = actions

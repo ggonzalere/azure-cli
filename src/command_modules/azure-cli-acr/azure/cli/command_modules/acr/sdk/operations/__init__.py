@@ -13,8 +13,6 @@ from .registries_operations import RegistriesOperations
 from .operations import Operations
 from .replications_operations import ReplicationsOperations
 from .webhooks_operations import WebhooksOperations
-from .runs_operations import RunsOperations
-from .tasks_operations import TasksOperations
 from .scope_maps_operations import ScopeMapsOperations
 from .tokens_operations import TokensOperations
 
@@ -23,8 +21,6 @@ __all__ = [
     'Operations',
     'ReplicationsOperations',
     'WebhooksOperations',
-    'RunsOperations',
-    'TasksOperations',
     'ScopeMapsOperations',
     'TokensOperations',
 ]

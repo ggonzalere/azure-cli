@@ -24,25 +24,20 @@ class GenerateCredentialsParameters(Model):
      "9999-12-31T15:59:59.9999999-08:00" .
     :type expiry: datetime
     :param name: Specifies name of the password which should be regenerated if
-     any -- password or password2. Possible values include: 'password',
+     any -- password or password2. Possible values include: 'password1',
      'password2'
     :type name: str or
      ~azure.mgmt.containerregistry.v2019_05_01_preview.models.TokenPasswordName
-    :param public_certificate_as_pem: Base 64 encoded string of the public
-     certificate in PEM format that will be used for authenticating the token.
-    :type public_certificate_as_pem: str
     """
 
     _attribute_map = {
         'token_id': {'key': 'tokenId', 'type': 'str'},
         'expiry': {'key': 'expiry', 'type': 'iso-8601'},
         'name': {'key': 'name', 'type': 'str'},
-        'public_certificate_as_pem': {'key': 'publicCertificateAsPEM', 'type': 'str'},
     }
 
-    def __init__(self, token_id=None, expiry="9999-12-31T15:59:59.9999999-08:00", name=None, public_certificate_as_pem=None):
+    def __init__(self, token_id=None, expiry="9999-12-31T15:59:59.9999999-08:00", name=None):
         super(GenerateCredentialsParameters, self).__init__()
         self.token_id = token_id
         self.expiry = expiry
         self.name = name
-        self.public_certificate_as_pem = public_certificate_as_pem

@@ -122,11 +122,13 @@ def acr_token_credential_generate(cmd,
     from ._utils import _arm_get_resource_by_name
     from msrest.exceptions import ValidationError
 
-    registry, resource_group_name = get_registry_by_name(cmd.cli_ctx, registry_name, resource_group_name)
+    resource_group_name = get_resource_group_name_by_registry_name(cmd, registry_name, resource_group_name)
     arm_resource = _arm_get_resource_by_name(cmd.cli_ctx, registry_name, REGISTRY_RESOURCE_TYPE)
     token_id = arm_resource.id + "/tokens/" + token_name
     generate_credentials_parameters = {"TokenId": token_id}
     certificate = _certificate_handler(certificate)
+    if certificate:
+        generate_credentials_parameters["certificate"] = certificate
 
     try:
         return client.generate_keys(
@@ -190,7 +192,7 @@ def _certificate_handler(certificate):
             certificate_b64 = b64encode(certificate_content)
             print(b64decode(certificate_b64))
         except IOError as e:
-            raise CLIError('Could not read certificate: {}'.format(str(e)))
+            raise CLIError('Could not read certificate {}. Exception: {}'.format(certificate, str(e)))
     else:
         certificate_b64 = None
 

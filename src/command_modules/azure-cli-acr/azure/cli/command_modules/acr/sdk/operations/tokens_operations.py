@@ -66,7 +66,7 @@ class TokensOperations(object):
             'subscriptionId': self._serialize.url("self.config.subscription_id", self.config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', min_length=1),
             'registryName': self._serialize.url("registry_name", registry_name, 'str', max_length=50, min_length=5, pattern=r'^[a-zA-Z0-9]*$'),
-            'tokenName': self._serialize.url("token_name", token_name, 'str', max_length=50, min_length=5)
+            'tokenName': self._serialize.url("token_name", token_name, 'str', max_length=50, min_length=5, pattern=r'^[a-zA-Z][a-zA-Z0-9-]*$')
         }
         url = self._client.format_url(url, **path_format_arguments)
 
@@ -107,16 +107,14 @@ class TokensOperations(object):
 
 
     def _create_initial(
-            self, resource_group_name, registry_name, token_name, scope_map_id=None, object_id=None, custom_headers=None, raw=False, **operation_config):
-        token_create_parameters = models.Token(scope_map_id=scope_map_id, object_id=object_id)
-
+            self, resource_group_name, registry_name, token_name, token_create_parameters, custom_headers=None, raw=False, **operation_config):
         # Construct URL
         url = self.create.metadata['url']
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self.config.subscription_id", self.config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', min_length=1),
             'registryName': self._serialize.url("registry_name", registry_name, 'str', max_length=50, min_length=5, pattern=r'^[a-zA-Z0-9]*$'),
-            'tokenName': self._serialize.url("token_name", token_name, 'str', max_length=50, min_length=5)
+            'tokenName': self._serialize.url("token_name", token_name, 'str', max_length=50, min_length=5, pattern=r'^[a-zA-Z][a-zA-Z0-9-]*$')
         }
         url = self._client.format_url(url, **path_format_arguments)
 
@@ -161,7 +159,7 @@ class TokensOperations(object):
         return deserialized
 
     def create(
-            self, resource_group_name, registry_name, token_name, scope_map_id=None, object_id=None, custom_headers=None, raw=False, **operation_config):
+            self, resource_group_name, registry_name, token_name, token_create_parameters, custom_headers=None, raw=False, **operation_config):
         """Creates a token for a container registry with the specified parameters.
 
         :param resource_group_name: The name of the resource group to which
@@ -171,12 +169,9 @@ class TokensOperations(object):
         :type registry_name: str
         :param token_name: The name of the token.
         :type token_name: str
-        :param scope_map_id: The resource ID of the scope map to which the
-         token will be associated with.
-        :type scope_map_id: str
-        :param object_id: The user/group/application object ID for which the
-         token has to be created.
-        :type object_id: str
+        :param token_create_parameters: The parameters for creating a token.
+        :type token_create_parameters:
+         ~azure.mgmt.containerregistry.v2019_05_01_preview.models.Token
         :param dict custom_headers: headers that will be added to the request
         :param bool raw: returns the direct response alongside the
          deserialized response
@@ -191,8 +186,7 @@ class TokensOperations(object):
             resource_group_name=resource_group_name,
             registry_name=registry_name,
             token_name=token_name,
-            scope_map_id=scope_map_id,
-            object_id=object_id,
+            token_create_parameters=token_create_parameters,
             custom_headers=custom_headers,
             raw=True,
             **operation_config
@@ -246,7 +240,7 @@ class TokensOperations(object):
             'subscriptionId': self._serialize.url("self.config.subscription_id", self.config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', min_length=1),
             'registryName': self._serialize.url("registry_name", registry_name, 'str', max_length=50, min_length=5, pattern=r'^[a-zA-Z0-9]*$'),
-            'tokenName': self._serialize.url("token_name", token_name, 'str', max_length=50, min_length=5)
+            'tokenName': self._serialize.url("token_name", token_name, 'str', max_length=50, min_length=5, pattern=r'^[a-zA-Z][a-zA-Z0-9-]*$')
         }
         url = self._client.format_url(url, **path_format_arguments)
 
@@ -343,16 +337,14 @@ class TokensOperations(object):
 
 
     def _update_initial(
-            self, resource_group_name, registry_name, token_name, scope_map_id=None, object_id=None, custom_headers=None, raw=False, **operation_config):
-        token_update_parameters = models.TokenUpdateParameters(scope_map_id=scope_map_id, object_id=object_id)
-
+            self, resource_group_name, registry_name, token_name, token_update_parameters, custom_headers=None, raw=False, **operation_config):
         # Construct URL
         url = self.update.metadata['url']
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self.config.subscription_id", self.config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', min_length=1),
             'registryName': self._serialize.url("registry_name", registry_name, 'str', max_length=50, min_length=5, pattern=r'^[a-zA-Z0-9]*$'),
-            'tokenName': self._serialize.url("token_name", token_name, 'str', max_length=50, min_length=5)
+            'tokenName': self._serialize.url("token_name", token_name, 'str', max_length=50, min_length=5, pattern=r'^[a-zA-Z][a-zA-Z0-9-]*$')
         }
         url = self._client.format_url(url, **path_format_arguments)
 
@@ -397,7 +389,7 @@ class TokensOperations(object):
         return deserialized
 
     def update(
-            self, resource_group_name, registry_name, token_name, scope_map_id=None, object_id=None, custom_headers=None, raw=False, **operation_config):
+            self, resource_group_name, registry_name, token_name, token_update_parameters, custom_headers=None, raw=False, **operation_config):
         """Updates a token with the specified parameters.
 
         :param resource_group_name: The name of the resource group to which
@@ -407,12 +399,9 @@ class TokensOperations(object):
         :type registry_name: str
         :param token_name: The name of the token.
         :type token_name: str
-        :param scope_map_id: The resource ID of the scope map to which the
-         token will be associated with.
-        :type scope_map_id: str
-        :param object_id: The user/group/application object ID for which the
-         token has to be created.
-        :type object_id: str
+        :param token_update_parameters: The parameters for updating a token.
+        :type token_update_parameters:
+         ~azure.mgmt.containerregistry.v2019_05_01_preview.models.TokenUpdateParameters
         :param dict custom_headers: headers that will be added to the request
         :param bool raw: returns the direct response alongside the
          deserialized response
@@ -427,8 +416,7 @@ class TokensOperations(object):
             resource_group_name=resource_group_name,
             registry_name=registry_name,
             token_name=token_name,
-            scope_map_id=scope_map_id,
-            object_id=object_id,
+            token_update_parameters=token_update_parameters,
             custom_headers=custom_headers,
             raw=True,
             **operation_config

@@ -37,7 +37,7 @@ class Replication(Resource):
     :ivar status: The status of the replication at the time the operation was
      called.
     :vartype status:
-     ~azure.mgmt.containerregistry.v2019_05_01_preview.models.Status
+     ~azure.mgmt.containerregistry.v2019_05_01_preview.models.Status1
     """
 
     _validation = {
@@ -56,7 +56,7 @@ class Replication(Resource):
         'location': {'key': 'location', 'type': 'str'},
         'tags': {'key': 'tags', 'type': '{str}'},
         'provisioning_state': {'key': 'properties.provisioningState', 'type': 'str'},
-        'status': {'key': 'properties.status', 'type': 'Status'},
+        'status': {'key': 'properties.status', 'type': 'Status1'},
     }
 
     def __init__(self, location, tags=None):
