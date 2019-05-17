@@ -248,7 +248,6 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
     with self.argument_context('acr token create') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
         c.argument('scope_map_name', options_list=['--scope-map'], help='The name of the scope map associated with the token', required=False)
-        c.argument('certificates', options_list=['--cert'], nargs='+', help='Certificates to be used for passwords. Max of 2.', required=False)
 
     with self.argument_context('acr token delete') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token.', required=True)
@@ -262,13 +261,25 @@ def load_arguments(self, _):  # pylint: disable=too-many-statements
 
     with self.argument_context('acr token credential') as c:
         c.argument('token_name', options_list=['--name', '-n'], help='The name of the target token', required=True)
-        c.argument('certificate', options_list=['--cert'], help='A certificate based credential', required=False)
+
+    with self.argument_context('acr token credential generate') as c:
+        c.argument('password1', options_list=['--password1'], help='Flag indicating if password1 should be generated.', action='store_true', required=False)
+        c.argument('password2', options_list=['--password2'], help='Flag indicating if password2 should be generated.', action='store_true', required=False)
+        c.argument('expiry', options_list=['--expiry'], help='Finer grain of expiry time if \'--years\' is insufficient, e.g. \'2220-12-31T11:59:59+00:00\' or \'2299-12-31\'', required=False)
+        c.argument('years', options_list=['--years'], help='Number of years for which the credentials will be valid.', type=int, required=False)
+
+    with self.argument_context('acr token credential add-certificate') as c:
+        c.argument('certificate1', options_list=['--cert1'], help='Full path to a file containing the PEM format of the first certificate.', required=False)
+        c.argument('certificate2', options_list=['--cert2'], help='Full path to a file containing the PEM format of the second certificate.', required=False)
+
+    with self.argument_context('acr token credential delete') as c:
+        c.argument('certificate1', options_list=['--cert1'], help='Flag indicating if first certificate should be deleted.', action='store_true', required=False)
+        c.argument('certificate2', options_list=['--cert2'], help='Flag indicating if second certificate should be deleted.', action='store_true', required=False)
+        c.argument('password1', options_list=['--password1'], help='Flag indicating if first password should be deleted', action='store_true', required=False)
+        c.argument('password2', options_list=['--password2'], help='Flag indicating if second password should be deleted.', action='store_true', required=False)
 
     with self.argument_context('acr token credential reset') as c:
         c.argument('certificate', options_list=['--cert'], help='Full path to a file containing the PEM format of the certificate to be used for credentials. If not specified, a random password will be generated', required=False)
         c.argument('create_certificate', options_list=['--create-cert'], help='Create a self-signed certificate to use for the credential', required=False)
         c.argument('end_date', options_list=['--end-date'], help='Finer grain of expiry time if \'--years\' is insufficient, e.g. \'2020-12-31T11:59:59+00:00\' or \'2299-12-31\'', required=False)
         c.argument('years', options_list=['--years'], help='Number of years for which the credentials will be valid.', type=int, required=False)
-
-    with self.argument_context('acr token credential delete') as c:
-        c.argument('key_id', options_list=['--key-id'], help='Credential key id.', required=True)

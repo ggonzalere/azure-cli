@@ -4,8 +4,8 @@
 # --------------------------------------------------------------------------------------------
 
 from azure.cli.core.util import CLIError
-
 from ._utils import get_resource_group_name_by_registry_name
+
 
 def _validate_and_generate_actions_for_repositories(allow_or_deny_respository):
     actions = []
@@ -19,6 +19,7 @@ def _validate_and_generate_actions_for_repositories(allow_or_deny_respository):
             actions.append("repositories/" + repository + "/" + action)
 
     return True, actions
+
 
 def acr_scope_map_create(cmd,
                          client,
@@ -50,21 +51,22 @@ def acr_scope_map_create(cmd,
     except ValidationError as e:
         raise CLIError(e)
 
+
 def acr_scope_map_delete(cmd,
                          client,
                          registry_name,
                          scope_map_name,
                          resource_group_name=None):
 
-    confirmation = ''
-    while confirmation not in ['Y', 'y', 'N', 'n']:
-        confirmation = str(input("Deleting the scope map '{}' will remove its permissions with associated tokens. Are you sure you want to proceed? (Y/n): ".format(scope_map_name))).strip()
+    from knack.prompting import prompt_y_n
+    confirmation = prompt_y_n("Deleting the scope map '{}' will remove its permissions with associated tokens. Are you sure you want to proceed?")
 
     if confirmation in ['N', 'n']:
         return
 
     resource_group_name = get_resource_group_name_by_registry_name(cmd, registry_name, resource_group_name)
     return client.delete(resource_group_name, registry_name, scope_map_name)
+
 
 def acr_scope_map_update(cmd,
                          client,
@@ -120,6 +122,7 @@ def acr_scope_map_update(cmd,
     except ValidationError as e:
         raise CLIError(e)
 
+
 def acr_scope_map_show(cmd,
                        client,
                        registry_name,
@@ -137,6 +140,7 @@ def acr_scope_map_show(cmd,
         )
     except ValidationError as e:
         raise CLIError(e)
+
 
 def acr_scope_map_list(cmd,
                        client,

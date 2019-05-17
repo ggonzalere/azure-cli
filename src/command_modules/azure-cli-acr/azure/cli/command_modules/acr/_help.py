@@ -850,26 +850,26 @@ examples:
 
 helps['acr token credential'] = """
 type: group
-short-summary: Manage credentials for a token under an Azure Container Registry.
+short-summary: Manage credentials entities for a token under an Azure Container Registry.
 """
 
 helps['acr token credential generate'] = """
 type: command
-short-summary: Generate a token's credentials.
+short-summary: Generates both passwords for a token under an Azure Container Registry, unless one password is specified. Replaces old values if they existed. If expiry is not specified, it will be defaulted to the max value.
 examples:
-  - name: Generate credentials for the token 'myToken'.
-    text: az acr token credential generate -r myRegistry -n myToken
+  - name: Generates passowrd1 for the token 'myToken', with expiration for 2 years.
+    text: az acr token credential generate -r myRegistry -n myToken --password1 --years 2
 """
 
-helps['acr token credential list'] = """
+helps['acr token credential add-certificate'] = """
 type: command
-short-summary: List a token's credentials.
+short-summary: Adds a certificate in a PEM format for a token under an Azure Container Registry. If target certificate already existed, it will be replaced with the new one.
 examples:
-  - name: List credentials for the token 'myToken'.
-    text: az acr token credential list -r myRegistry -n myToken
+  - name: Adds certificate1 for the token 'myToken'.
+    text: az acr token credential add-certificate -r myRegistry -n myToken --cert1 C:\\myCertificates\\certificate.pem
 """
 
-helps['acr token credential reset'] = """
+helps['acr token credential delete'] = """
 type: command
 short-summary: Reset a token credential. To be used upon expiration, loss or leak of information.
 examples:
